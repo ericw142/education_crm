@@ -8,8 +8,8 @@ const Layout = () => {
 
     return (
         <div>
-            <div className="flex items-center justify-between border-b border-gray-400 p-8">
-                <h1 className='font-bold text-3xl'>EDUCRM</h1>
+            <div className="flex items-center justify-end p-4 bg-[rgb(57,65,80)] text-white">
+                <h1 className='font-bold text-3xl pr-5'>EDUCRM</h1>
                 <nav>
                     <section className="MOBILE-MENU flex lg:hidden">
                         <div
