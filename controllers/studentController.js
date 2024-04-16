@@ -15,9 +15,9 @@ const getAllStudents = asyncHandler(async (req, res) => {
 // @route POST /students
 // @access Private
 const createNewStudent = asyncHandler(async (req, res) => {
-    const { firstName, lastName, currentlyEnrolled } = req.body
+    const { firstName, lastName, phone, email, currentlyEnrolled, currentlyEnrolledCourse } = req.body
 
-    const studentObject = { firstName, lastName, currentlyEnrolled: currentlyEnrolled !== undefined ? currentlyEnrolled : false }
+    const studentObject = { firstName, lastName, phone, email, currentlyEnrolled: currentlyEnrolled !== undefined ? currentlyEnrolled : false, currentlyEnrolledCourse }
     const student = await Student.create(studentObject)
     if (student) {
         res.status(201).json({ message: `New student added` })
@@ -30,9 +30,17 @@ const createNewStudent = asyncHandler(async (req, res) => {
 // @route PATCH /students
 // @access Private
 const updateStudent = asyncHandler(async (req, res) => {
-    const { id, firstName, lastName, currentlyEnrolled } = req.body
+    const { id, firstName, lastName, phone, email, currentlyEnrolled, currentlyEnrolledCourse } = req.body
 
-    if (!id || firstName === undefined || lastName === undefined || typeof currentlyEnrolled !== 'boolean') {
+    if (
+        !id || 
+        firstName === undefined || 
+        lastName === undefined || 
+        phone === undefined || 
+        email === undefined || 
+        typeof currentlyEnrolled !== 'boolean' ||
+        currentlyEnrolledCourse === undefined
+    ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -44,7 +52,10 @@ const updateStudent = asyncHandler(async (req, res) => {
 
     student.firstName = firstName
     student.lastName = lastName
+    student.phone = phone
+    student.email = email
     student.currentlyEnrolled = currentlyEnrolled
+    student.currentlyEnrolledCourse = currentlyEnrolledCourse
 
     const updatedStudent = await student.save()
 
