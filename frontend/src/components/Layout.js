@@ -39,7 +39,7 @@ const Layout = () => {
                                 <line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
                             </div>
-                            <ul className="MENU-LINK-MOBILE-OPEN flex flex-col items-center justify-between min-h-[250px]">
+                            <ul className="MENU-LINK-MOBILE-OPEN flex flex-col items-center justify-between min-h-[250px] text-black">
                                 <li className="border-b border-gray-400 my-8 uppercase" onClick={() => setIsNavOpen(false)}>
                                     <p><Link to="/">Students</Link></p>
                                 </li>

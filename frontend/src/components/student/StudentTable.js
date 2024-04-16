@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import StudentRow from './StudentRow'
+import StudentEditorModal from './StudentEditorModal';
 
-const StudentTable = ({ students }) => {
+const StudentTable = ({ students, fetchInfo }) => {
+    const [studentEditorData, setStudentEditorData] = useState()
+    const [open, setOpen] = useState(false);
+
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <StudentEditorModal open={open} onCloseModal={onCloseModal} student={studentEditorData} fetchInfo={fetchInfo}/>
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -17,7 +25,7 @@ const StudentTable = ({ students }) => {
                             Email
                         </th>
                         <th scope="col" className="px-6 py-3">
-                            Currently Enrolled Course
+                            Currently Enrolled In
                         </th>
                         <th scope="col" className="px-6 py-3">
                             Action
@@ -33,6 +41,8 @@ const StudentTable = ({ students }) => {
                                         key={`student-row-${student.lastName}-${i}`}
                                         index={i}
                                         student={student}
+                                        onOpenModal={onOpenModal}
+                                        setStudentEditorData={setStudentEditorData}
                                     />
                                 )
                             })}

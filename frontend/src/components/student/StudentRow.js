@@ -9,7 +9,7 @@ import React from 'react'
 //     currentlyEnrolled: boolean;
 //     currentlyEnrolledCourse: string;
 // }
-const StudentRow = ({ index, student }) => {
+const StudentRow = ({ index, student, onOpenModal, setStudentEditorData }) => {
     return (
         <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -25,7 +25,13 @@ const StudentRow = ({ index, student }) => {
                 {student.currentlyEnrolledCourse}
             </td>
             <td className="px-6 py-4">
-                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <a
+                    onClick={() => {
+                        onOpenModal()
+                        setStudentEditorData(student)
+                    }}
+                    className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer"
+                >Edit</a>
             </td>
         </tr>
     )

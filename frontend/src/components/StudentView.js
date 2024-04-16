@@ -7,7 +7,7 @@ const StudentView = () => {
     const [students, setStudents] = useState([])
     const [selectedView, setSelectedView] = useState('Current Students')
 
-    useEffect(() => {
+    const fetchAndUpdateStudentInfo = () => {
         axios.get('http://localhost:3500/students')
             .then((resp) => {
                 if (resp?.data?.length > 0) {
@@ -15,6 +15,10 @@ const StudentView = () => {
                 }
             })
             .catch(err => console.log(err?.message || 'Unknown Error'));
+    }
+
+    useEffect(() => {
+        fetchAndUpdateStudentInfo()
     }, [])
 
     return (
@@ -25,7 +29,7 @@ const StudentView = () => {
                     <h1 className='text-center text-2xl font-bold'>{selectedView}</h1>
 
                     {selectedView === 'Current Students' ? (
-                        <StudentTable students={students} />
+                        <StudentTable students={students} fetchInfo={fetchAndUpdateStudentInfo}/>
                     ) : <></>}
                 </div>
             </main>
