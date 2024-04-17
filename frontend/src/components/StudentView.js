@@ -7,7 +7,7 @@ import StudentReports from './student/StudentReports'
 
 const StudentView = () => {
     const [students, setStudents] = useState([])
-    const [selectedView, setSelectedView] = useState('Current Students')
+    const [selectedView, setSelectedView] = useState('Student Pipeline')
 
     const fetchAndUpdateStudentInfo = () => {
         axios.get('http://localhost:3500/students')
