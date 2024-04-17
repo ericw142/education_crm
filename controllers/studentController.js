@@ -44,28 +44,26 @@ const createNewStudent = asyncHandler(async (req, res) => {
 // @access Private
 const updateStudent = asyncHandler(async (req, res) => {
     const { 
-        id, 
+        _id, 
         firstName, 
         lastName, 
         phone, 
         email, 
-        currentlyEnrolledCourseName, 
         enrollmentStatus 
     } = req.body;
 
     if (
-        !id || 
+        !_id || 
         firstName === undefined || 
         lastName === undefined || 
         phone === undefined || 
         email === undefined || 
-        currentlyEnrolledCourseName === undefined ||
         enrollmentStatus === undefined
     ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
-    const student = await Student.findById(id).exec()
+    const student = await Student.findById(_id).exec()
     
     if (!student) {
         return res.status(400).json({ message: 'Student not found' })
@@ -81,7 +79,6 @@ const updateStudent = asyncHandler(async (req, res) => {
     student.phone = phone
     student.email = email
     student.currentlyEnrolled = currentlyEnrolled
-    student.currentlyEnrolledCourseName = currentlyEnrolledCourseName
     student.enrollmentStatus = enrollmentStatus
 
     if (enrollmentStatus === 'Contacted') {
@@ -100,6 +97,9 @@ const updateStudent = asyncHandler(async (req, res) => {
         student.applicationCompletedDate = new Date()
     }
     if (enrollmentStatus === 'Enrolled') {
+        student.enrollmentDate = new Date()
+    }
+    if (enrollmentStatus === 'Current Student' && student.enrollmentDate === undefined) {
         student.enrollmentDate = new Date()
     }
     if (enrollmentStatus === 'Graduated') {

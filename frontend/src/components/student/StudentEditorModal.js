@@ -90,19 +90,6 @@ const StudentEditorModal = ({ open, onCloseModal, student, fetchInfo }) => {
                             <option value="Graduated">Graduated</option>
                         </select>
                     </div>
-                    <div className="mb-5">
-                        <label htmlFor='currentlyEnrolledCourseName' className="block mb-2 text-sm font-medium">Currently Enrolled In</label>
-                        <input
-                            required
-                            type="text"
-                            id='currentlyEnrolledCourseName'
-                            defaultValue={student?.currentlyEnrolledCourseName}
-                            onChange={(e) => {
-                                setUpdatedStudentData({...updatedStudentData, currentlyEnrolledCourseName: e.currentTarget.value })
-                            }}
-                            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                        />
-                    </div>
                     <div className='flex flex-row justify-between'>
                         <button
                             type="button"
