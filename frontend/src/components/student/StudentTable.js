@@ -9,6 +9,8 @@ const StudentTable = ({ students, fetchInfo, enrollmentStatus }) => {
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
 
+    const filteredStudents = students?.length > 0 ? students.filter((student) => student?.enrollmentStatus === enrollmentStatus) : [];
+
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <StudentEditorModal open={open} onCloseModal={onCloseModal} student={studentEditorData} fetchInfo={fetchInfo}/>
@@ -36,10 +38,9 @@ const StudentTable = ({ students, fetchInfo, enrollmentStatus }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {students?.length > 0 && (
+                    {filteredStudents?.length > 0 && (
                         <>
-                            {students.map((student, i) => {
-                                if (student?.enrollmentStatus === enrollmentStatus) {
+                            {filteredStudents.map((student, i) => {
                                     return (
                                         <StudentRow
                                             key={`student-row-${student.lastName}-${i}`}
@@ -50,8 +51,7 @@ const StudentTable = ({ students, fetchInfo, enrollmentStatus }) => {
                                         />
                                     )
                                 }
-                                return <></>
-                            })}
+                            )}
                         </>
                     )}
                 </tbody>
