@@ -12,3 +12,5 @@ const courseSchema = new mongoose.Schema({
     // matching _id of teacher
     studentIds: { type: Array },
 })
+
+module.exports = mongoose.model('courses', courseSchema)

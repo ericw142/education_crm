@@ -93,8 +93,7 @@ const deleteTeacher = asyncHandler(async (req, res) => {
     if (!teacher) return res.status(400).json({ message: 'Teacher not found' })
 
     const result = await teacher.deleteOne()
-    const reply = `Teacher with ID ${id} deleted`;
-    res.json(reply)
+    res.json(`Teacher with ID ${id} deleted`)
 })
 
 module.exports = { getAllTeachers, createNewTeacher, updateTeacher, deleteTeacher }

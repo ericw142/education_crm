@@ -26,6 +26,7 @@ app.use('/', express.static('public'))
 app.use('/', require('./routes/root'))
 app.use('/students', require('./routes/studentRoutes'))
 app.use('/teachers', require('./routes/teacherRoutes'))
+app.use('/courses', require('./routes/courseRoutes'))
 
 app.all('*', (req, res) => {
     res.status(404)
