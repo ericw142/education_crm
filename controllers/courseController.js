@@ -103,4 +103,4 @@ const deleteCourse = asyncHandler(async (req, res) => {
     res.json(`Course with ID ${id} deleted`)
 })
 
-module.exports = { getAllCourses, createNewCourse, updatedCourse, deleteCourse }
+module.exports = { getAllCourses, createNewCourse, updateCourse, deleteCourse }
