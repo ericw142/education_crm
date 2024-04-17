@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Chart from 'react-apexcharts'
 import getDatesForCurrentWeek from '../../utils/getDatesForCurrentWeek';
 import formatDate from '../../utils/formatDate';
+import isSameDay from '../../utils/isSameDay';
 
 const PipelineByWeek = ({ students }) => {
     const currentWeek = getDatesForCurrentWeek();
@@ -61,33 +62,74 @@ const PipelineByWeek = ({ students }) => {
             }
         }
     })
-    const [series, setSeries] = useState([
-        {
-            name: 'New Leads',
-            type: 'area',
-            data: [10,14,8,4,9,11,5]
-        },
-        {
-            name: 'Contacted',
-            type: 'column',
-            data: [5,7,3,6,7,9,2]
-        },
-        {
-            name: 'Interested',
-            type: 'column',
-            data: [1,1,1,1,1,1,1]
-        },
-        {
-            name: 'Application Started',
-            type: 'column',
-            data: [1,1,1,1,1,1,1]
-        },
-        {
-            name: 'Enrolled',
-            type: 'line',
-            data: [0,0,1,0,3,4,1]
-        },
-    ])
+    const [series, setSeries] = useState([])
+
+    const indexOfSameDayInWeek = (date, week) => {
+        const dateToCheck = new Date(date);
+    
+        for (let i = 0; i < week.length; i++) {
+            const currentDate = new Date(week[i]);
+            if (isSameDay(currentDate, dateToCheck)) {
+                return i;
+            }
+        }
+    
+        return -1; // Not found
+    }
+
+    const calculateTotalsByStatus = () => {
+        const newLeadsTotals = [0,0,0,0,0,0,0];
+        const contactedTotals = [0,0,0,0,0,0,0];
+        const interestedTotals = [0,0,0,0,0,0,0];
+        const appStartedTotals = [0,0,0,0,0,0,0];
+        const enrolledTotals = [0,0,0,0,0,0,0];
+
+        for (let i = 0; i < students.length; i++) {
+            let newLeadIdx = indexOfSameDayInWeek(students[i].createdDate, currentWeek);
+            let contactedIdx = indexOfSameDayInWeek(students[i].contactedDate, currentWeek);
+            let interestedIdx = indexOfSameDayInWeek(students[i].interestedDate, currentWeek);
+            let appStartedIdx = indexOfSameDayInWeek(students[i].applicationStartedDate, currentWeek);
+            let enrolledIdx = indexOfSameDayInWeek(students[i].enrollmentDate, currentWeek);
+
+            if (newLeadIdx !== -1) newLeadsTotals[newLeadIdx]++;
+            if (contactedIdx !== -1) contactedTotals[contactedIdx]++;
+            if (interestedIdx !== -1) interestedTotals[interestedIdx]++;
+            if (appStartedIdx !== -1) appStartedTotals[appStartedIdx]++;
+            if (enrolledIdx !== -1) enrolledTotals[enrolledIdx]++;
+        }
+
+        setSeries([
+            {
+                name: 'New Leads',
+                type: 'area',
+                data: newLeadsTotals
+            },
+            {
+                name: 'Contacted',
+                type: 'column',
+                data: contactedTotals
+            },
+            {
+                name: 'Interested',
+                type: 'column',
+                data: interestedTotals
+            },
+            {
+                name: 'Application Started',
+                type: 'column',
+                data: appStartedTotals
+            },
+            {
+                name: 'Enrolled',
+                type: 'line',
+                data: enrolledTotals
+            },
+        ])
+    }
+
+    useEffect(() => {
+        calculateTotalsByStatus()
+    }, [])
 
     return (
         <div>
