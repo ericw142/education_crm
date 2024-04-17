@@ -72,14 +72,14 @@ const StudentEditorModal = ({ open, onCloseModal, student, fetchInfo }) => {
                         />
                     </div>
                     <div className="mb-5">
-                        <label htmlFor='currentlyEnrolledCourse' className="block mb-2 text-sm font-medium">Currently Enrolled In</label>
+                        <label htmlFor='currentlyEnrolledCourseName' className="block mb-2 text-sm font-medium">Currently Enrolled In</label>
                         <input
                             required
                             type="text"
-                            id='currentlyEnrolledCourse'
-                            defaultValue={student?.currentlyEnrolledCourse}
+                            id='currentlyEnrolledCourseName'
+                            defaultValue={student?.currentlyEnrolledCourseName}
                             onChange={(e) => {
-                                setUpdatedStudentData({...updatedStudentData, currentlyEnrolledCourse: e.currentTarget.value })
+                                setUpdatedStudentData({...updatedStudentData, currentlyEnrolledCourseName: e.currentTarget.value })
                             }}
                             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         />
@@ -102,7 +102,7 @@ const StudentEditorModal = ({ open, onCloseModal, student, fetchInfo }) => {
                                     phone: updatedStudentData.phone,
                                     email: updatedStudentData.email,
                                     currentlyEnrolled: updatedStudentData.currentlyEnrolled,
-                                    currentlyEnrolledCourse: updatedStudentData.currentlyEnrolledCourse,
+                                    currentlyEnrolledCourseName: updatedStudentData.currentlyEnrolledCourseName,
                                 };
                                 axios.patch('http://localhost:3500/students', body)
                                 .then(() => {

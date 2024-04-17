@@ -7,7 +7,7 @@ import React from 'react'
 //     phone: string;
 //     email: string;
 //     currentlyEnrolled: boolean;
-//     currentlyEnrolledCourse: string;
+//     currentlyEnrolledCourseName: string;
 // }
 const StudentRow = ({ index, student, onOpenModal, setStudentEditorData }) => {
     return (
@@ -22,7 +22,7 @@ const StudentRow = ({ index, student, onOpenModal, setStudentEditorData }) => {
                 {student.email}
             </td>
             <td className="px-6 py-4">
-                {student.currentlyEnrolledCourse}
+                {student.currentlyEnrolledCourseName}
             </td>
             <td className="px-6 py-4">
                 <a
