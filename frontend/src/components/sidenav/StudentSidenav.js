@@ -8,7 +8,7 @@ const StudentSidenav = ({ setSelectedView }) => {
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
                     <ul className="space-y-2 font-medium">
                         <SidenavButton buttonText={'Current Students'} setSelectedView={setSelectedView}/>
-                        <SidenavButton buttonText={'New Student Pipeline'} setSelectedView={setSelectedView}/>
+                        <SidenavButton buttonText={'Student Pipeline'} setSelectedView={setSelectedView}/>
                     </ul>
                 </div>
             </aside>

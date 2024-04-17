@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import StudentTable from './student/StudentTable'
 import StudentSidenav from './sidenav/StudentSidenav'
+import StudentPipeline from './student/StudentPipeline'
 
 const StudentView = () => {
     const [students, setStudents] = useState([])
@@ -29,7 +30,9 @@ const StudentView = () => {
                     <h1 className='text-center text-2xl font-bold'>{selectedView}</h1>
 
                     {selectedView === 'Current Students' ? (
-                        <StudentTable students={students} fetchInfo={fetchAndUpdateStudentInfo}/>
+                        <StudentTable students={students} fetchInfo={fetchAndUpdateStudentInfo} enrollmentStatus={'Current Student'} />
+                    ) : selectedView === 'Student Pipeline' ? (
+                        <StudentPipeline students={students} fetchInfo={fetchAndUpdateStudentInfo} />
                     ) : <></>}
                 </div>
             </main>

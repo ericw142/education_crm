@@ -21,6 +21,9 @@ const StudentRow = ({ index, student, onOpenModal, setStudentEditorData }) => {
             <td className="px-6 py-4">
                 {student.email}
             </td>
+            <td className='px-6 py-4'>
+                {student.enrollmentStatus}
+            </td>
             <td className="px-6 py-4">
                 {student.currentlyEnrolledCourseName}
             </td>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import StudentRow from './StudentRow'
 import StudentEditorModal from './StudentEditorModal';
 
-const StudentTable = ({ students, fetchInfo }) => {
+const StudentTable = ({ students, fetchInfo, enrollmentStatus }) => {
     const [studentEditorData, setStudentEditorData] = useState()
     const [open, setOpen] = useState(false);
 
@@ -24,6 +24,9 @@ const StudentTable = ({ students, fetchInfo }) => {
                         <th scope="col" className="px-6 py-3">
                             Email
                         </th>
+                        <th scope="col" className='px-6 py-3'>
+                            Enrollment Status
+                        </th>
                         <th scope="col" className="px-6 py-3">
                             Currently Enrolled In
                         </th>
@@ -36,15 +39,18 @@ const StudentTable = ({ students, fetchInfo }) => {
                     {students?.length > 0 && (
                         <>
                             {students.map((student, i) => {
-                                return (
-                                    <StudentRow
-                                        key={`student-row-${student.lastName}-${i}`}
-                                        index={i}
-                                        student={student}
-                                        onOpenModal={onOpenModal}
-                                        setStudentEditorData={setStudentEditorData}
-                                    />
-                                )
+                                if (student?.enrollmentStatus === enrollmentStatus) {
+                                    return (
+                                        <StudentRow
+                                            key={`student-row-${student.lastName}-${i}`}
+                                            index={i}
+                                            student={student}
+                                            onOpenModal={onOpenModal}
+                                            setStudentEditorData={setStudentEditorData}
+                                        />
+                                    )
+                                }
+                                return <></>
                             })}
                         </>
                     )}

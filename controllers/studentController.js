@@ -15,9 +15,22 @@ const getAllStudents = asyncHandler(async (req, res) => {
 // @route POST /students
 // @access Private
 const createNewStudent = asyncHandler(async (req, res) => {
-    const { firstName, lastName, phone, email, currentlyEnrolled, currentlyEnrolledCourseName } = req.body
+    const { 
+        firstName, 
+        lastName,
+        phone, 
+        email, 
+    } = req.body;
 
-    const studentObject = { firstName, lastName, phone, email, currentlyEnrolled: currentlyEnrolled !== undefined ? currentlyEnrolled : false, currentlyEnrolledCourseName }
+    const studentObject = { 
+        firstName, 
+        lastName, 
+        phone, 
+        email, 
+        currentlyEnrolled: false, 
+        enrollmentStatus: 'New Lead',
+        createdDate: new Date(),
+    }
     const student = await Student.create(studentObject)
     if (student) {
         res.status(201).json({ message: `New student added` })
@@ -30,7 +43,15 @@ const createNewStudent = asyncHandler(async (req, res) => {
 // @route PATCH /students
 // @access Private
 const updateStudent = asyncHandler(async (req, res) => {
-    const { id, firstName, lastName, phone, email, currentlyEnrolled, currentlyEnrolledCourseName } = req.body
+    const { 
+        id, 
+        firstName, 
+        lastName, 
+        phone, 
+        email, 
+        currentlyEnrolledCourseName, 
+        enrollmentStatus 
+    } = req.body;
 
     if (
         !id || 
@@ -38,8 +59,8 @@ const updateStudent = asyncHandler(async (req, res) => {
         lastName === undefined || 
         phone === undefined || 
         email === undefined || 
-        typeof currentlyEnrolled !== 'boolean' ||
-        currentlyEnrolledCourseName === undefined
+        currentlyEnrolledCourseName === undefined ||
+        enrollmentStatus === undefined
     ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
@@ -50,12 +71,40 @@ const updateStudent = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'Student not found' })
     }
 
+    let currentlyEnrolled = false;
+    if (enrollmentStatus === 'Enrolled' || enrollmentStatus === 'Current Student') {
+        currentlyEnrolled = true;
+    }
+
     student.firstName = firstName
     student.lastName = lastName
     student.phone = phone
     student.email = email
     student.currentlyEnrolled = currentlyEnrolled
     student.currentlyEnrolledCourseName = currentlyEnrolledCourseName
+    student.enrollmentStatus = enrollmentStatus
+
+    if (enrollmentStatus === 'Contacted') {
+        student.contactedDate = new Date()
+    }
+    if (enrollmentStatus === 'Interested') {
+        student.interestedDate = new Date()
+    }
+    if (enrollmentStatus === 'Uninterested') {
+        student.uninterestedDate = new Date()
+    }
+    if (enrollmentStatus === 'Application Started') {
+        student.applicationStartedDate = new Date()
+    }
+    if (enrollmentStatus === 'Application Completed') {
+        student.applicationCompletedDate = new Date()
+    }
+    if (enrollmentStatus === 'Enrolled') {
+        student.enrollmentDate = new Date()
+    }
+    if (enrollmentStatus === 'Graduated') {
+        // enter course info for the graduated course { course: _id, courseName: string, graduatedDate: new Date() }
+    }
 
     const updatedStudent = await student.save()
 
