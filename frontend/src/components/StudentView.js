@@ -3,6 +3,7 @@ import axios from 'axios'
 import StudentTable from './student/StudentTable'
 import StudentSidenav from './sidenav/StudentSidenav'
 import StudentPipeline from './student/StudentPipeline'
+import StudentReports from './student/StudentReports'
 
 const StudentView = () => {
     const [students, setStudents] = useState([])
@@ -29,10 +30,12 @@ const StudentView = () => {
                 <div className='p-4 sm:ml-64 grow'>
                     <h1 className='text-center text-2xl font-bold'>{selectedView}</h1>
 
-                    {selectedView === 'Current Students' ? (
-                        <StudentTable students={students} fetchInfo={fetchAndUpdateStudentInfo} enrollmentStatus={'Current Student'} />
-                    ) : selectedView === 'Student Pipeline' ? (
+                    {selectedView === 'Student Pipeline' ? (
                         <StudentPipeline students={students} fetchInfo={fetchAndUpdateStudentInfo} />
+                    ) : selectedView === 'Current Students' ? (
+                        <StudentTable students={students} fetchInfo={fetchAndUpdateStudentInfo} enrollmentStatus={'Current Student'} />
+                    ) : selectedView === 'Reports' ? (
+                        <StudentReports students={students} fetchInfo={fetchAndUpdateStudentInfo}/>
                     ) : <></>}
                 </div>
             </main>
