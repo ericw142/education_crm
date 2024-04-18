@@ -47,7 +47,7 @@ const Layout = () => {
                                     <p><Link to="/teachers">Teachers</Link></p>
                                 </li>
                                 <li className="border-b border-gray-400 my-8 uppercase" onClick={() => setIsNavOpen(false)}>
-                                    <p><Link to="/programs">Programs</Link></p>
+                                    <p><Link to="/courses">Courses</Link></p>
                                 </li>
                             </ul>
                         </div>
@@ -61,7 +61,7 @@ const Layout = () => {
                             <p><Link to="/teachers">Teachers</Link></p>
                         </li>
                         <li>
-                            <p><Link to="/programs">Programs</Link></p>
+                            <p><Link to="/courses">Courses</Link></p>
                         </li>
                     </ul>
                 </nav>

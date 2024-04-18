@@ -23,7 +23,7 @@ const Pagination = ({ page, setPage, totalPages}) => {
         setPage(totalPages)
     }
 
-    const paginationButtonCSS = "font-bold text-gray-700 rounded-full bg-gray-100 flex items-center justify-center h-[40px] w-[40px] mx-1 cursor-pointer hover:bg-gray-400 hover:text-white";
+    const paginationButtonCSS = "text-gray-700 rounded-full bg-gray-100 flex items-center justify-center h-[40px] w-[40px] mx-1 cursor-pointer hover:bg-gray-400 hover:text-white";
 
     return (
         <div className='absolute inset-x-0 bottom-0 h-16 sm:ml-64 grow border-t'>
