@@ -9,6 +9,8 @@ const StudentPipeline = ({ students, fetchInfo }) => {
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
     const [filteredStudents, setFilteredStudents] = useState()
+    const [paginatedStudents, setPaginatedStudents] = useState([])
+    const itemsPerPage = 10;
 
     const onOpenModal = () => setOpenNewStudentModal(true);
     const onCloseModal = () => setOpenNewStudentModal(false);
@@ -17,12 +19,23 @@ const StudentPipeline = ({ students, fetchInfo }) => {
         const filtered = students?.length > 0 ? students.filter((student) => student?.enrollmentStatus === currentStatusView) : [];
         setFilteredStudents(filtered)
         if (filtered.length > 0) {
-            const total = Math.ceil(filtered.length / 10);
+            const total = Math.ceil(filtered.length / itemsPerPage);
             setTotalPages(total)
         } else {
             setTotalPages(1)
         }
     }, [students?.length, currentStatusView, students])
+
+    useEffect(() => {
+        if (filteredStudents?.length > 0) {
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginated = filteredStudents.slice(startIndex, endIndex);
+            setPaginatedStudents(paginated)
+        } else {
+            setPaginatedStudents([])
+        }
+    }, [page, filteredStudents])
 
     return (
         <div>
@@ -54,7 +67,7 @@ const StudentPipeline = ({ students, fetchInfo }) => {
                 </div>
             </div>
             <div className='mt-5'>
-               <StudentTable students={filteredStudents} fetchInfo={fetchInfo} />
+               <StudentTable students={paginatedStudents} fetchInfo={fetchInfo} />
             </div>
             <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
         </div>

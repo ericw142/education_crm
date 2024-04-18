@@ -52,33 +52,29 @@ const Pagination = ({ page, setPage, totalPages}) => {
                         </div>
                     )}
                     {totalPages >= page + 3 && (
-                        <div
-                            className="font-bold text-gray-700 flex items-center justify-center h-[40px] w-[40px]" 
-                        >
-                            ...
-                        </div>
-                    )}
-                    {page <= totalPages - 2 && (
-                        <div
-                            className={paginationButtonCSS}
-                        >
-                            {totalPages - 2}
-                        </div>
-                    )}
-                    {page <= totalPages - 1 && (
-                        <div
-                            className={paginationButtonCSS}
-                        >
-                            {totalPages - 1}
-                        </div>
-                    )}
-                    {page < totalPages && (
-                        <div
-                            onClick={goToLastPage}
-                            className={paginationButtonCSS}
-                        >
-                            {totalPages}
-                        </div>
+                        <>
+                            <div
+                                className="font-bold text-gray-700 flex items-center justify-center h-[40px] w-[40px]" 
+                            >
+                                ...
+                            </div>
+                            <div
+                                className={paginationButtonCSS}
+                            >
+                                {totalPages - 2}
+                            </div>
+                            <div
+                                className={paginationButtonCSS}
+                            >
+                                {totalPages - 1}
+                            </div>
+                            <div
+                                onClick={goToLastPage}
+                                className={paginationButtonCSS}
+                            >
+                                {totalPages}
+                            </div>
+                        </>
                     )}
                 </div>
                 <button className='text-gray-700' onClick={goToNextPage}>Next</button>
