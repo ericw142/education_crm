@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import StudentRow from './StudentRow'
 import StudentEditorModal from './StudentEditorModal';
 
-const StudentTable = ({ students, fetchInfo, enrollmentStatus }) => {
+const StudentTable = ({ students, fetchInfo }) => {
     const [studentEditorData, setStudentEditorData] = useState()
     const [open, setOpen] = useState(false);
 
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
-
-    const filteredStudents = students?.length > 0 ? students.filter((student) => student?.enrollmentStatus === enrollmentStatus) : [];
 
     return (
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -38,9 +36,9 @@ const StudentTable = ({ students, fetchInfo, enrollmentStatus }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredStudents?.length > 0 && (
+                    {students?.length > 0 && (
                         <>
-                            {filteredStudents.map((student, i) => {
+                            {students.map((student, i) => {
                                     return (
                                         <StudentRow
                                             key={`student-row-${student.lastName}-${i}`}

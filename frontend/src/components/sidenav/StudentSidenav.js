@@ -9,7 +9,7 @@ const StudentSidenav = ({ setSelectedView }) => {
                     <h3 className='text-2xl text-white font-extrabold ml-2'>Students</h3>
                     <ul className="space-y-2 font-medium">
                         <SidenavButton buttonText={'Student Pipeline'} setSelectedView={setSelectedView}/>
-                        <SidenavButton buttonText={'Current Students'} setSelectedView={setSelectedView}/>
+                        <SidenavButton buttonText={'All Students'} setSelectedView={setSelectedView}/>
                         <SidenavButton buttonText={'Reports'} setSelectedView={setSelectedView}/>
                     </ul>
                 </div>

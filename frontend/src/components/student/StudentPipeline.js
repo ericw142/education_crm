@@ -1,13 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import StudentTable from './StudentTable'
 import NewStudentModal from './NewStudentModal'
+import Pagination from '../Pagination'
 
 const StudentPipeline = ({ students, fetchInfo }) => {
     const [currentStatusView, setCurrentStatusView] = useState('New Lead')
     const [openNewStudentModal, setOpenNewStudentModal] = useState(false)
+    const [page, setPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
+    const [filteredStudents, setFilteredStudents] = useState()
 
     const onOpenModal = () => setOpenNewStudentModal(true);
     const onCloseModal = () => setOpenNewStudentModal(false);
+
+    useEffect(() => {
+        const filtered = students?.length > 0 ? students.filter((student) => student?.enrollmentStatus === currentStatusView) : [];
+        setFilteredStudents(filtered)
+        if (filtered.length > 0) {
+            const total = Math.ceil(filtered.length / 10);
+            setTotalPages(total)
+        } else {
+            setTotalPages(1)
+        }
+    }, [students?.length, currentStatusView, students])
 
     return (
         <div>
@@ -39,8 +54,9 @@ const StudentPipeline = ({ students, fetchInfo }) => {
                 </div>
             </div>
             <div className='mt-5'>
-               <StudentTable students={students} fetchInfo={fetchInfo} enrollmentStatus={currentStatusView} />
+               <StudentTable students={filteredStudents} fetchInfo={fetchInfo} />
             </div>
+            <Pagination page={page} setPage={setPage} totalPages={totalPages}/>
         </div>
     )
 }

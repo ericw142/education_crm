@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import StudentTable from './student/StudentTable'
 import StudentSidenav from './sidenav/StudentSidenav'
 import StudentPipeline from './student/StudentPipeline'
 import StudentReports from './student/StudentReports'
+import AllStudents from './student/AllStudents'
 
 const StudentView = () => {
     const [students, setStudents] = useState([])
@@ -32,8 +32,8 @@ const StudentView = () => {
 
                     {selectedView === 'Student Pipeline' ? (
                         <StudentPipeline students={students} fetchInfo={fetchAndUpdateStudentInfo} />
-                    ) : selectedView === 'Current Students' ? (
-                        <StudentTable students={students} fetchInfo={fetchAndUpdateStudentInfo} enrollmentStatus={'Current Student'} />
+                    ) : selectedView === 'All Students' ? (
+                        <AllStudents students={students} fetchInfo={fetchAndUpdateStudentInfo} />
                     ) : selectedView === 'Reports' ? (
                         <StudentReports students={students} fetchInfo={fetchAndUpdateStudentInfo}/>
                     ) : <></>}
