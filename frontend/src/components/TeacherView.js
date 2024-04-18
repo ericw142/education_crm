@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import TeacherSideNav from './sidenav/TeacherSidenav'
+import TeacherGrid from './teacher/TeacherGrid'
 
 const TeacherView = () => {
     const [selectedView, setSelectedView] = useState('View Teachers')
@@ -24,9 +25,9 @@ const TeacherView = () => {
         <div>
             <main className='flex flex-row'>
                 <TeacherSideNav setSelectedView={setSelectedView}/>
-                <div className='p-4 sm:ml-64 grow'>
-                    <h1 className='text-center text-2xl font-bold'>{selectedView}</h1>
-                </div>
+                {selectedView === 'View Teachers' ? (
+                    <TeacherGrid teachers={teachers}/>
+                ) : <></>}
             </main>
         </div>
     )

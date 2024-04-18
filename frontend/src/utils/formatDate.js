@@ -12,7 +12,7 @@ function getDaySuffix(day) {
     }
 }
 
-export default function formatDate(dateString) {
+export default function formatDate(dateString, returnYear) {
     const parts = dateString.split('/');
     const mm = parseInt(parts[0], 10);
     const dd = parseInt(parts[1], 10);
@@ -21,5 +21,6 @@ export default function formatDate(dateString) {
     const monthName = monthNames[mm - 1];
     const daySuffix = getDaySuffix(dd);
 
+    if (returnYear) return `${monthName} ${dd}${daySuffix}, ${yyyy}`;
     return `${monthName} ${dd}${daySuffix}`;
 }

@@ -17,6 +17,7 @@ const createNewTeacher = asyncHandler(async (req, res) => {
     const {
         firstName,
         lastName,
+        role,
         phone,
         email,
     } = req.body;
@@ -24,9 +25,11 @@ const createNewTeacher = asyncHandler(async (req, res) => {
     const teacherObject = {
         firstName,
         lastName,
+        role,
         phone,
         email,
         active: true,
+        hireDate: new Date(),
         courses: [],
     }
     const teacher = await Teacher.create(teacherObject)
@@ -45,6 +48,7 @@ const updateTeacher = asyncHandler(async (req, res) => {
         _id,
         firstName,
         lastName,
+        role,
         phone,
         email,
         active,
@@ -55,6 +59,7 @@ const updateTeacher = asyncHandler(async (req, res) => {
         !_id ||
         firstName === undefined || 
         lastName === undefined || 
+        role === undefined ||
         phone === undefined || 
         email === undefined || 
         typeof active !== Boolean ||
@@ -71,6 +76,7 @@ const updateTeacher = asyncHandler(async (req, res) => {
 
     teacher.firstName = firstName
     teacher.lastName = lastName
+    teacher.role = role
     teacher.phone = phone
     teacher.email = email
     teacher.active = active
