@@ -40,7 +40,7 @@ const CourseView = () => {
                 <CourseSidenav setSelectedView={setSelectedView}/>
                 <div className='p-4 sm:ml-64 grow'>
                     {selectedView === 'Course Planner' ? (
-                        <CoursePlanner courses={courses} teachers={teachers}/>
+                        <CoursePlanner courses={courses} teachers={teachers} fetchCourseInfo={fetchAndUpdateCourseInfo}/>
                     ) : (
                         <CourseSchedule />
                     )}

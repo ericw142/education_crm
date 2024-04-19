@@ -1,7 +1,39 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
-const NewCourseForm = ({ teachers }) => {
-    const [newCourseData, setNewCourseData] = useState({})
+const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
+    const [newCourseData, setNewCourseData] = useState({
+        title: '',
+        description: '',
+        teacherId: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        certificationLevel: 'N5',
+        areaOfFocus: 'Vocabulary'
+    })
+
+    const postNewCourse = async () => {
+        console.log(newCourseData)
+        if (
+            !newCourseData?.title ||
+            !newCourseData?.description ||
+            !newCourseData?.teacherId ||
+            !newCourseData?.startDate ||
+            !newCourseData?.endDate ||
+            !newCourseData?.certificationLevel ||
+            !newCourseData?.areaOfFocus
+        ) {
+            console.log('All fields required')
+            return;
+        }
+
+        await axios.post('http://localhost:3500/courses', newCourseData)
+            .then(() => {
+                console.log('Created new course')
+                fetchCourseInfo()
+            })
+            .catch(err => console.log(err.message))
+    }
 
     return (
         <div>
@@ -107,7 +139,8 @@ const NewCourseForm = ({ teachers }) => {
                 </div>
                 <div>
                     <button
-                        onClick={() => console.log(newCourseData)}
+                        type="button"
+                        onClick={postNewCourse}
                         className="bg-white border border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block p-1.5 h-[40px]"
                     >
                         + Add New Course
