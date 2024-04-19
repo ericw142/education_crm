@@ -16,7 +16,7 @@ const TeacherGrid = ({ teachers }) => {
     }, [teachers?.length])
 
     return (
-        <div className='p-4 sm:ml-64 grow'>
+        <div>
             <div className='flex flex-row justify-between pb-5'>
                 <div>
                     <h1 className='text-start text-2xl font-bold'>Teachers ({teachers?.length})</h1>

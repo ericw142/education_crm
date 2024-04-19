@@ -15,7 +15,8 @@ const getAllCourses = asyncHandler(async (req, res) => {
 // @access Private
 const createNewCourse = asyncHandler(async (req, res) => {
     const {
-        name,
+        title,
+        description,
         startDate,
         endDate,
         areaOfFocus,
@@ -25,7 +26,8 @@ const createNewCourse = asyncHandler(async (req, res) => {
     } = req.body;
 
     const courseObject = {
-        name,
+        title,
+        description,
         startDate,
         endDate,
         areaOfFocus,
@@ -47,7 +49,8 @@ const createNewCourse = asyncHandler(async (req, res) => {
 const updateCourse = asyncHandler(async (req, res) => {
     const {
         _id,
-        name,
+        title,
+        description,
         startDate,
         endDate,
         areaOfFocus,
@@ -58,7 +61,8 @@ const updateCourse = asyncHandler(async (req, res) => {
 
     if (
         !_id ||
-        name === undefined ||
+        title === undefined ||
+        description === undefined ||
         startDate === undefined ||
         endDate === undefined ||
         areaOfFocus === undefined ||
@@ -75,7 +79,8 @@ const updateCourse = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'Course not found' })
     }
 
-    course.name = name
+    course.title = title
+    course.description = description
     course.startDate = startDate
     course.endDate = endDate
     course.areaOfFocus = areaOfFocus
@@ -85,7 +90,7 @@ const updateCourse = asyncHandler(async (req, res) => {
 
     const updatedCourse = await course.save()
 
-    res.json({ message: `Course ${name} updated`})
+    res.json({ message: `Course ${title} updated`})
 })
 
 // @desc Delete a course

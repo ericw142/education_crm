@@ -25,9 +25,11 @@ const TeacherView = () => {
         <div>
             <main className='flex flex-row'>
                 <TeacherSideNav setSelectedView={setSelectedView}/>
-                {selectedView === 'View Teachers' ? (
-                    <TeacherGrid teachers={teachers}/>
-                ) : <></>}
+                <div className='p-4 sm:ml-64 grow'>
+                    {selectedView === 'View Teachers' ? (
+                        <TeacherGrid teachers={teachers}/>
+                    ) : <></>}
+                </div>
             </main>
         </div>
     )

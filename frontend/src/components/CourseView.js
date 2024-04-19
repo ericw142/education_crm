@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import CourseSidenav from './sidenav/CourseSidenav'
+import CourseSchedule from './course/CourseSchedule'
 
 const CourseView = () => {
     const [selectedView, setSelectedView] = useState('Course Planner')
@@ -23,7 +24,14 @@ const CourseView = () => {
     return (
         <div>
             <main className='flex flex-row'>
-                <CourseSidenav />
+                <CourseSidenav setSelectedView={setSelectedView}/>
+                <div className='p-4 sm:ml-64 grow'>
+                    {selectedView === 'Course Planner' ? (
+                        <></>
+                    ) : (
+                        <CourseSchedule />
+                    )}
+                </div>
             </main>
         </div>
     )
