@@ -60,9 +60,9 @@ const StudentPipeline = ({ students, fetchInfo }) => {
                 <div className='grid-cols-1'>
                     <button
                         onClick={onOpenModal}
-                        className="text-gray-700 border-gray-700 border-2 hover:bg-gray-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                        className="bg-white border border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block p-1.5 h-[40px]"
                     >
-                        Enter new Student info
+                        + Add New Student
                     </button>
                 </div>
             </div>
