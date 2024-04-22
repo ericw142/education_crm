@@ -13,7 +13,6 @@ const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
     })
 
     const postNewCourse = async () => {
-        console.log(newCourseData)
         if (
             !newCourseData?.title ||
             !newCourseData?.description ||

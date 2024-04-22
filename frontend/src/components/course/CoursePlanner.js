@@ -27,7 +27,7 @@ const CoursePlanner = ({ courses, teachers, fetchCourseInfo }) => {
             ) : selectedForm === 'Edit Course' ? (
                 <div>
                     {backButton()}
-                    <EditCourseForm courses={courses} teachers={teachers} />
+                    <EditCourseForm courses={courses} teachers={teachers} fetchCourseInfo={fetchCourseInfo} />
                 </div>
             ) : (
                 <div className='container flex flex-col gap-4 p-10 px-[40px]'>
