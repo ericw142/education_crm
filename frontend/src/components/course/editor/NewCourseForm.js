@@ -60,7 +60,7 @@ const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
                         >
                             <option value=""></option>
                             {teachers?.map((teacher, i) => {
-                                return <option value={teacher?._id}>{teacher?.firstName} {teacher?.lastName}</option>
+                                return <option key={teacher?._id} value={teacher?._id}>{teacher?.firstName} {teacher?.lastName}</option>
                             })}
                         </select>
                     </div>
@@ -85,7 +85,7 @@ const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
                             type="date"
                             id='startDate'
                             onChange={(e) => {
-                                setNewCourseData({ ...newCourseData, startDate: e.currentTarget.value });
+                                setNewCourseData({ ...newCourseData, startDate: new Date(e.currentTarget.value).setUTCHours(12, 0, 0, 0) });
                             }}
                             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         />
@@ -97,7 +97,7 @@ const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
                             type="date"
                             id='endDate'
                             onChange={(e) => {
-                                setNewCourseData({ ...newCourseData, endDate: e.currentTarget.value });
+                                setNewCourseData({ ...newCourseData, endDate: new Date(e.currentTarget.value).setUTCHours(12, 0, 0, 0) });
                             }}
                             className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         />

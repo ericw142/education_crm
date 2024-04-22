@@ -1,8 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import CourseList from './CourseList'
 
 const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
     const [editedCourseData, setEditedCourseData] = useState({})
+    const [resultStatusMessage, setResultStatusMessage] = useState('')
+
+    const formatForDateInput = (dateVal) => {
+        const year = dateVal.getFullYear();
+        const month = String(dateVal.getMonth() + 1).padStart(2, '0');
+        const day = String(dateVal.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
     const patchCourse = async () => {
         if (!editedCourseData || !editedCourseData?._id) {
@@ -11,33 +20,40 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
 
         await axios.patch('http://localhost:3500/courses', editedCourseData)
             .then(() => {
-                console.log('Updated course')
+                setResultStatusMessage(`${editedCourseData.title || 'Course'} has been updated successfully.`)
                 setEditedCourseData({})
                 fetchCourseInfo()
             })
-            .catch(err => console.log(err.message))
+            .catch(err => setResultStatusMessage(err.message))
     }
+
+    const deleteCourse = async () => {
+        if (!editedCourseData || !editedCourseData?._id) {
+            return;
+        }
+
+        await axios.delete('http://localhost:3500/courses', { data: { id: editedCourseData._id } })
+            .then(() => {
+                setResultStatusMessage('Course deleted')
+                setEditedCourseData({})
+                fetchCourseInfo()
+            })
+            .catch(err => setResultStatusMessage(err.message))
+    }
+
+    useEffect(() => {
+        if (resultStatusMessage) {
+            setTimeout(() => setResultStatusMessage(''), 6000)
+        }
+    }, [resultStatusMessage])
 
     return (
         <div className='flex flex-row gap-2'>
-            <div className='w-[400px]'>
-                {courses?.map((course, i) => {
-                    if (course) {
-                        return (
-                            <div
-                                key={`${course.title}-courseselect-${i}`}
-                                onClick={() => setEditedCourseData({...course})}
-                                className='border-2 cursor-pointer text-center py-2 rounded'
-                            >
-                                <p>{course.title}</p>
-                            </div>
-                        )
-                    }
-                    return <></>
-                })}
-            </div>
-            {editedCourseData?._id && (
-                <div className='container'>
+            <CourseList courses={courses} onClickFn={setEditedCourseData} selectedId={editedCourseData?._id} />
+
+            <div className='container'>
+                {resultStatusMessage && <p>{resultStatusMessage}</p>}
+                {editedCourseData?._id && (
                     <form>
                         <div className="mb-5 flex flex-row gap-2">
                             <div className='container'>
@@ -64,7 +80,7 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
                                 >
                                     <option value=""></option>
                                     {teachers?.map((teacher, i) => {
-                                        return <option value={teacher?._id}>{teacher?.firstName} {teacher?.lastName}</option>
+                                        return <option key={teacher?._id} value={teacher?._id}>{teacher?.firstName} {teacher?.lastName}</option>
                                     })}
                                 </select>
                             </div>
@@ -89,7 +105,7 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
                                     required
                                     type="date"
                                     id='startDate'
-                                    value={editedCourseData?.startDate}
+                                    value={editedCourseData?.startDate ? formatForDateInput(new Date(editedCourseData.startDate)) : ''}
                                     onChange={(e) => {
                                         setEditedCourseData({ ...editedCourseData, startDate: e.currentTarget.value });
                                     }}
@@ -102,7 +118,7 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
                                     required
                                     type="date"
                                     id='endDate'
-                                    value={editedCourseData?.endDate}
+                                    value={editedCourseData?.endDate ? formatForDateInput(new Date(editedCourseData.endDate)) : ''}
                                     onChange={(e) => {
                                         setEditedCourseData({ ...editedCourseData, endDate: e.currentTarget.value });
                                     }}
@@ -145,7 +161,7 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
                                 </select>
                             </div>
                         </div>
-                        <div>
+                        <div className='flex flex-row justify-between'>
                             <button
                                 type="button"
                                 onClick={patchCourse}
@@ -153,10 +169,17 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo }) => {
                             >
                                 Update Course
                             </button>
+                            <button
+                                type="button"
+                                onClick={deleteCourse}
+                                className="bg-red border border-red-300 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-1.5 h-[40px] text-red-500"
+                            >
+                                Delete Course
+                            </button>
                         </div>
                     </form>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     )
 }

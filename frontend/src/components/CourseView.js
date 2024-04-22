@@ -14,9 +14,14 @@ const CourseView = () => {
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     setCourses(resp.data)
+                } else {
+                    setCourses([])
                 }
             })
-            .catch(err => console.log(err?.message || 'Unknown Error'));
+            .catch(err => {
+                console.log(err?.message || 'Unknown Error')
+                setCourses([])
+            });
     }
 
     const fetchAndUpdateTeacherInfo = () => {
