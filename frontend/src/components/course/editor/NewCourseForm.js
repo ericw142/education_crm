@@ -140,7 +140,7 @@ const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
                     <button
                         type="button"
                         onClick={postNewCourse}
-                        className="bg-white border border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block p-1.5 h-[40px]"
+                        className="bg-white border border-green-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-1.5 h-[40px] text-green-600"
                     >
                         + Add New Course
                     </button>
