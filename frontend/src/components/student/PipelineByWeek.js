@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Chart from 'react-apexcharts'
 import getDatesForCurrentWeek from '../../utils/getDatesForCurrentWeek';
 import formatDate from '../../utils/formatDate';
-import isSameDay from '../../utils/isSameDay';
+import indexOfSameDayInWeek from '../../utils/indexOfSameDayInWeek';
 
 const PipelineByWeek = ({ students }) => {
     const currentWeek = getDatesForCurrentWeek();
@@ -63,19 +63,6 @@ const PipelineByWeek = ({ students }) => {
         }
     })
     const [series, setSeries] = useState([])
-
-    const indexOfSameDayInWeek = (date, week) => {
-        const dateToCheck = new Date(date);
-    
-        for (let i = 0; i < week.length; i++) {
-            const currentDate = new Date(week[i]);
-            if (isSameDay(currentDate, dateToCheck)) {
-                return i;
-            }
-        }
-    
-        return -1; // Not found
-    }
 
     const calculateTotalsByStatus = () => {
         const newLeadsTotals = [0,0,0,0,0,0,0];
