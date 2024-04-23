@@ -158,13 +158,16 @@ const EditCourseForm = ({
                                         className="basic-multi-select"
                                         classNamePrefix="select"
                                         onChange={(e) => {
+                                            setSelectedStudents(e)
+
                                             if (e?.length > 0) {
                                                 let newStudents = [];
                                                 for (let i = 0; i < e.length; i++) {
                                                     newStudents.push(e[i].value);
                                                 }
-                                                setSelectedStudents(e)
                                                 setEditedCourseData({ ...editedCourseData, studentIds: newStudents });
+                                            } else {
+                                                setEditedCourseData({ ...editedCourseData, studentIds: [] });
                                             }
                                         }}
                                     />

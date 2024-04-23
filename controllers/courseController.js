@@ -1,5 +1,17 @@
 const Course = require('../models/Course')
 const asyncHandler = require('express-async-handler')
+const Student = require('../models/Student')
+
+const updateStudentStatusToEnrolled = async (studentIds) => {
+    const studentsToEnroll = await Student.find({ '_id': { $in: studentIds } })
+    if (studentsToEnroll) {
+        for (let i = 0; i < studentsToEnroll.length; i++) {
+            if (studentsToEnroll[i].enrollmentStatus !== 'Enrolled') {
+                await Student.findOneAndUpdate({ _id: studentsToEnroll[i]._id }, { enrollmentStatus: 'Enrolled' })
+            }
+        }
+    }
+}
 
 // @desc Get all courses
 // @route GET /courses
@@ -36,6 +48,9 @@ const createNewCourse = asyncHandler(async (req, res) => {
         studentIds,
     }
     const course = await Course.create(courseObject)
+
+    await updateStudentStatusToEnrolled(studentIds)
+
     if (course) {
         res.status(201).json({ message: 'New course added' })
     } else {
@@ -89,6 +104,8 @@ const updateCourse = asyncHandler(async (req, res) => {
     course.studentIds = studentIds
 
     const updatedCourse = await course.save()
+
+    await updateStudentStatusToEnrolled(studentIds)
 
     res.json({ message: `Course ${title} updated`})
 })
