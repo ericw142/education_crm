@@ -8,6 +8,7 @@ const CourseView = () => {
     const [selectedView, setSelectedView] = useState('Course Planner')
     const [courses, setCourses] = useState([])
     const [teachers, setTeachers] = useState([])
+    const [students, setStudents] = useState([])
 
     const fetchAndUpdateCourseInfo = () => {
         axios.get('http://localhost:3500/courses')
@@ -34,9 +35,37 @@ const CourseView = () => {
             .catch(err => console.log(err?.message || 'Unknown Error'));
     }
 
+    const fetchAndUpdateStudentInfo = async () => {
+        let allStudents = [];
+        await axios.get('http://localhost:3500/students/enrollmentStatus?status=Enrolled')
+            .then((resp) => {
+                if (resp?.data?.length > 0) {
+                    allStudents.push(...resp.data);
+                }
+            })
+            .catch(err => {
+                console.log(err?.message || 'Unknown Error')
+            });
+        await axios.get('http://localhost:3500/students/enrollmentStatus?status=Application%20Completed')
+            .then((resp) => {
+                if (resp?.data?.length > 0) {
+                    allStudents.push(...resp.data);
+                }
+            })
+            .catch(err => {
+                console.log(err?.message || 'Unknown Error')
+            });
+        allStudents.sort((a, b) => a.firstName.localeCompare(b.firstName))
+        setStudents(allStudents)
+    }
+
     useEffect(() => {
-        fetchAndUpdateCourseInfo()
-        fetchAndUpdateTeacherInfo()
+        async function fetchAllData() {
+            fetchAndUpdateCourseInfo()
+            fetchAndUpdateTeacherInfo()
+            await fetchAndUpdateStudentInfo()
+        }
+        fetchAllData()
     }, [])
 
     return (
@@ -45,7 +74,7 @@ const CourseView = () => {
                 <CourseSidenav setSelectedView={setSelectedView}/>
                 <div className='p-4 sm:ml-64 grow'>
                     {selectedView === 'Course Planner' ? (
-                        <CoursePlanner courses={courses} teachers={teachers} fetchCourseInfo={fetchAndUpdateCourseInfo}/>
+                        <CoursePlanner courses={courses} teachers={teachers} students={students} fetchCourseInfo={fetchAndUpdateCourseInfo}/>
                     ) : (
                         <CourseSchedule />
                     )}

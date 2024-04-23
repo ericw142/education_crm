@@ -25,7 +25,6 @@ const studentSchema = new mongoose.Schema({
     applicationCompletedDate: { type: Date },
     // Enrolled - prospective student has completed all steps and has enrolled in a course
     enrollmentDate: { type: Date },
-    // Current Student - student is currently enrolled and studying with the school
     // Graduated - student has completed a course and will be returned to the pool to market additional courses
     graduatedCourses: { type: Array },  
     // [ { course: _id, courseName: string, graduatedDate: Date } ]

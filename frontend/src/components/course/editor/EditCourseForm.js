@@ -3,11 +3,21 @@ import axios from 'axios'
 import CourseList from './CourseList'
 import CreateLessonForm from './CreateLessonForm'
 import LessonList from './LessonList'
+import Select from 'react-select'
 
-const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, setEditedCourseData }) => {
+const EditCourseForm = ({
+    courses,
+    teachers,
+    students,
+    fetchCourseInfo,
+    editedCourseData,
+    setEditedCourseData
+}) => {
     const [resultStatusMessage, setResultStatusMessage] = useState('')
     const [showCreateLessonForm, setShowCreateLessonForm] = useState(false)
     const [lessons, setLessons] = useState([])
+    const [studentOptions, setStudentOptions] = useState([])
+    const [selectedStudents, setSelectedStudents] = useState([])
 
     const formatForDateInput = (dateVal) => {
         const year = dateVal.getFullYear();
@@ -58,10 +68,25 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
                 setLessons([])
             });
     }
-
+    
     useEffect(() => {
         fetchLessonInfo()
     }, [editedCourseData?._id])
+
+    useEffect(() => {
+        let options = [];
+        let defaultVal = [];
+        for (let i = 0; i < students.length; i++) {
+            const currentStudent = { value: students[i]._id, label: `${students[i].firstName} ${students[i].lastName}` };
+
+            options.push(currentStudent);
+            if (editedCourseData?.studentIds?.includes(students[i]._id)) {
+                defaultVal.push(currentStudent)
+            }
+        }
+        setStudentOptions(options);
+        setSelectedStudents(defaultVal);
+    }, [students, editedCourseData?._id])
 
     useEffect(() => {
         if (resultStatusMessage) {
@@ -121,6 +146,27 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
                                             setEditedCourseData({ ...editedCourseData, description: e.currentTarget.value });
                                         }}
                                         className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    />
+                                </div>
+                                <div className='mb-5'>
+                                    <label htmlFor='students' className="block mb-2 text-sm font-medium">Students</label>
+                                    <Select
+                                        isMulti
+                                        name="students"
+                                        value={selectedStudents}
+                                        options={studentOptions}
+                                        className="basic-multi-select"
+                                        classNamePrefix="select"
+                                        onChange={(e) => {
+                                            if (e?.length > 0) {
+                                                let newStudents = [];
+                                                for (let i = 0; i < e.length; i++) {
+                                                    newStudents.push(e[i].value);
+                                                }
+                                                setSelectedStudents(e)
+                                                setEditedCourseData({ ...editedCourseData, studentIds: newStudents });
+                                            }
+                                        }}
                                     />
                                 </div>
                                 <div className="mb-5 flex flex-row gap-2">

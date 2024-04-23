@@ -11,6 +11,16 @@ const getAllStudents = asyncHandler(async (req, res) => {
     res.json(students)
 })
 
+// @desc Get all students
+// @route GET /students/enrollmentStatus?enrollmentStatus=""
+// @access Private
+const getStudentsByEnrollmentStatus = asyncHandler(async (req, res) => {
+    console.log(req.query.status)
+    const students = await Student.find({ enrollmentStatus: req.query.status }).lean()
+    if (!students?.length) return res.status(400).json({ message: 'No students found' })
+    res.json(students)
+})
+
 // @desc Create new student
 // @route POST /students
 // @access Private
@@ -70,7 +80,7 @@ const updateStudent = asyncHandler(async (req, res) => {
     }
 
     let currentlyEnrolled = false;
-    if (enrollmentStatus === 'Enrolled' || enrollmentStatus === 'Current Student') {
+    if (enrollmentStatus === 'Enrolled') {
         currentlyEnrolled = true;
     }
 
@@ -99,9 +109,6 @@ const updateStudent = asyncHandler(async (req, res) => {
     if (enrollmentStatus === 'Enrolled') {
         student.enrollmentDate = new Date()
     }
-    if (enrollmentStatus === 'Current Student' && student.enrollmentDate === undefined) {
-        student.enrollmentDate = new Date()
-    }
     if (enrollmentStatus === 'Graduated') {
         // enter course info for the graduated course { course: _id, courseName: string, graduatedDate: new Date() }
     }
@@ -127,4 +134,4 @@ const deleteStudent = asyncHandler(async (req, res) => {
     res.json(reply)
 })
 
-module.exports = { getAllStudents, createNewStudent, updateStudent, deleteStudent }
+module.exports = { getAllStudents, getStudentsByEnrollmentStatus, createNewStudent, updateStudent, deleteStudent }

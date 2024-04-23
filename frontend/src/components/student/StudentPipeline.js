@@ -53,7 +53,6 @@ const StudentPipeline = ({ students, fetchInfo }) => {
                         <option value="Application Started">Application Started</option>
                         <option value="Application Completed">Application Completed</option>
                         <option value="Enrolled">Enrolled</option>
-                        <option value="Current Student">Current Students</option>
                         <option value="Graduated">Graduated</option>
                     </select>
                 </div>

@@ -8,4 +8,7 @@ router.route('/')
     .patch(studentController.updateStudent)
     .delete(studentController.deleteStudent)
 
+router.route('/enrollmentStatus')
+    .get(studentController.getStudentsByEnrollmentStatus)
+
 module.exports = router
