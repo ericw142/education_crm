@@ -39,7 +39,7 @@ const CoursePlanner = ({ courses, teachers, fetchCourseInfo }) => {
                             )}
                             <button
                                 onClick={() => setSelectedForm('New Course')}
-                                className="bg-green border border-green-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-1.5 h-[40px] w-[200px] mb-5 ml-auto"
+                                className="bg-green border border-green-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-1.5 h-[40px] w-[200px] mb-5 ml-auto text-green-600"
                             >
                                 New Course
                             </button>

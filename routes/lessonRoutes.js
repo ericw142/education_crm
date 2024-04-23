@@ -8,10 +8,10 @@ router.route('/')
     .patch(lessonController.updateLesson)
     .delete(lessonController.deleteLesson)
 
-router.route('/course')
+router.route('/course/:courseId')
     .get(lessonController.getLessonsByCourseId)
 
-router.route('/teacher')
+router.route('/teacher/:teacherId')
     .get(lessonController.getLessonsByTeacherId)
 
 module.exports = router

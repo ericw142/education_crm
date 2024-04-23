@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import CourseList from './CourseList'
+import CreateLessonForm from './CreateLessonForm'
 
 const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, setEditedCourseData }) => {
     const [resultStatusMessage, setResultStatusMessage] = useState('')
+    const [showCreateLessonForm, setShowCreateLessonForm] = useState(false)
+    const [lessons, setLessons] = useState([])
 
     const formatForDateInput = (dateVal) => {
         const year = dateVal.getFullYear();
@@ -40,6 +43,25 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
             .catch(err => setResultStatusMessage(err.message))
     }
 
+    const fetchLessonInfo = () => {
+        axios.get(`http://localhost:3500/lessons/course/${editedCourseData?._id}`)
+            .then((resp) => {
+                if (resp?.data?.length > 0) {
+                    setLessons(resp.data)
+                } else {
+                    setLessons([])
+                }
+            })
+            .catch(err => {
+                console.log(err?.message || 'Unknown Error')
+                setLessons([])
+            });
+    }
+
+    useEffect(() => {
+        fetchLessonInfo()
+    }, [])
+
     useEffect(() => {
         if (resultStatusMessage) {
             setTimeout(() => setResultStatusMessage(''), 6000)
@@ -55,23 +77,8 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
                     {resultStatusMessage && <p>{resultStatusMessage}</p>}
                     {editedCourseData?._id && (
                         <div>
-                            <div className='flex flex-row justify-between pb-5'>
-                                <button
-                                    type="button"
-                                    onClick={patchCourse}
-                                    className="bg-white border border-green-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-1.5 h-[40px] text-green-600"
-                                >
-                                    Update Course
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={deleteCourse}
-                                    className="bg-red border border-red-300 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-1.5 h-[40px] text-red-500"
-                                >
-                                    Delete Course
-                                </button>
-                            </div>
                             <form>
+                                <h6 className='font-bold text-lg mb-2'>Course</h6>
                                 <div className="mb-5 flex flex-row gap-2">
                                     <div className='container'>
                                         <label htmlFor='title' className="block mb-2 text-sm font-medium">Title</label>
@@ -178,7 +185,41 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
                                         </select>
                                     </div>
                                 </div>
+                                <div className='flex flex-row justify-between pb-5'>
+                                    <button
+                                        type="button"
+                                        onClick={patchCourse}
+                                        className="bg-white border border-green-300 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block p-1.5 h-[40px] text-green-600"
+                                    >
+                                        Update Course
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={deleteCourse}
+                                        className="bg-red border border-red-300 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-1.5 h-[40px] text-red-500"
+                                    >
+                                        Delete Course
+                                    </button>
+                                </div>
                             </form>
+
+                            <h6 className='font-bold text-lg mb-2'>Lessons</h6>
+                                <p>{lessons?.length > 0 ? `${lessons.length} lessons.` : 'No lessons yet.'}</p>
+                                <button
+                                    onClick={() => setShowCreateLessonForm(true)}
+                                    className="bg-white border border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block p-1.5 h-[40px] w-[200px] mb-5"
+                                >
+                                    Create Lesson
+                                </button>
+                                {showCreateLessonForm && (
+                                    <CreateLessonForm
+                                        courseId={editedCourseData?._id}
+                                        teacherId={editedCourseData?.teacherId}
+                                        setResultStatusMessage={setResultStatusMessage}
+                                        fetchLessonInfo={fetchLessonInfo}
+                                        setShowCreateLessonForm={setShowCreateLessonForm}
+                                    />
+                                )}
                         </div>
                     )}
                 </div>
