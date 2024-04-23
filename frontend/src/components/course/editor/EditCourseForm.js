@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import CourseList from './CourseList'
 import CreateLessonForm from './CreateLessonForm'
+import LessonList from './LessonList'
 
 const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, setEditedCourseData }) => {
     const [resultStatusMessage, setResultStatusMessage] = useState('')
@@ -60,7 +61,7 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
 
     useEffect(() => {
         fetchLessonInfo()
-    }, [])
+    }, [editedCourseData?._id])
 
     useEffect(() => {
         if (resultStatusMessage) {
@@ -204,14 +205,17 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
                             </form>
 
                             <h6 className='font-bold text-lg mb-2'>Lessons</h6>
-                                <p>{lessons?.length > 0 ? `${lessons.length} lessons.` : 'No lessons yet.'}</p>
+                            <div className='flex flex-row justify-start gap-11'>
+                                <p className='mt-2'>{lessons?.length > 0 ? `${lessons.length} lesson${lessons?.length > 1 ? 's' : ''}.` : 'No lessons yet.'}</p>
                                 <button
                                     onClick={() => setShowCreateLessonForm(true)}
-                                    className="bg-white border border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block p-1.5 h-[40px] w-[200px] mb-5"
+                                    className="bg-white border border-gray-300 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block p-1.5 h-[40px] mb-5"
                                 >
                                     Create Lesson
                                 </button>
-                                {showCreateLessonForm && (
+                            </div>
+                                
+                                {showCreateLessonForm ? (
                                     <CreateLessonForm
                                         courseId={editedCourseData?._id}
                                         teacherId={editedCourseData?.teacherId}
@@ -219,6 +223,10 @@ const EditCourseForm = ({ courses, teachers, fetchCourseInfo, editedCourseData, 
                                         fetchLessonInfo={fetchLessonInfo}
                                         setShowCreateLessonForm={setShowCreateLessonForm}
                                     />
+                                ) : (
+                                    <div>
+                                        <LessonList lessons={lessons} fetchLessonInfo={fetchLessonInfo} setResultStatusMessage={setResultStatusMessage}/>
+                                    </div>
                                 )}
                         </div>
                     )}
