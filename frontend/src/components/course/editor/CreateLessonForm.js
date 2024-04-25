@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const CreateLessonForm = ({ courseId, teacherId, setResultStatusMessage, fetchLessonInfo, setShowCreateLessonForm }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [date, setDate] = useState('')
@@ -10,7 +11,7 @@ const CreateLessonForm = ({ courseId, teacherId, setResultStatusMessage, fetchLe
 
     const createLesson = async () => {
         const lessonData = { title, description, date, startTime, endTime, courseId, teacherId };
-        await axios.post('http://localhost:3500/lessons', lessonData)
+        await axios.post(`${baseURL}/lessons`, lessonData)
             .then(() => {
                 setResultStatusMessage(`Lesson has been created successfully.`);
                 fetchLessonInfo();

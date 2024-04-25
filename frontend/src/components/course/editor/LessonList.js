@@ -3,10 +3,11 @@ import axios from 'axios'
 import truncateString from '../../../utils/truncateString'
 
 const LessonList = ({ lessons, fetchLessonInfo, setResultStatusMessage }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [selectedLesson, setSelectedLesson] = useState('')
 
     const deleteLesson = (id) => {
-        axios.delete('http://localhost:3500/lessons', { data: { id } })
+        axios.delete(`${baseURL}/lessons`, { data: { id } })
         .then(() => {
             fetchLessonInfo()
         })

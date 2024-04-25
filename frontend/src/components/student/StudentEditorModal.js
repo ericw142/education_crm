@@ -4,6 +4,7 @@ import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
 const StudentEditorModal = ({ open, onCloseModal, student, fetchInfo }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [updatedStudentData, setUpdatedStudentData] = useState({})
 
     useEffect(() => {
@@ -101,7 +102,7 @@ const StudentEditorModal = ({ open, onCloseModal, student, fetchInfo }) => {
                             type="button"
                             onClick={() => {
                                 const body = {...updatedStudentData};
-                                axios.patch('http://localhost:3500/students', body)
+                                axios.patch(`${baseURL}/students`, body)
                                 .then(() => {
                                     onCloseModal()
                                     fetchInfo()

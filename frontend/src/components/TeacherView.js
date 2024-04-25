@@ -5,11 +5,12 @@ import TeacherGrid from './teacher/TeacherGrid'
 import TeacherReports from './teacher/TeacherReports'
 
 const TeacherView = () => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [selectedView, setSelectedView] = useState('View Teachers')
     const [teachers, setTeachers] = useState ([])
 
     const fetchAndUpdateTeacherInfo = () => {
-        axios.get('http://localhost:3500/teachers')
+        axios.get(`${baseURL}/teachers`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     setTeachers(resp.data)

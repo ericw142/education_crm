@@ -6,11 +6,12 @@ import StudentReports from './student/StudentReports'
 import AllStudents from './student/AllStudents'
 
 const StudentView = () => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [students, setStudents] = useState([])
     const [selectedView, setSelectedView] = useState('Student Pipeline')
 
     const fetchAndUpdateStudentInfo = () => {
-        axios.get('http://localhost:3500/students')
+        axios.get(`${baseURL}/students`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     setStudents(resp.data)

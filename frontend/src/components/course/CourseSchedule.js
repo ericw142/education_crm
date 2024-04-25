@@ -5,6 +5,7 @@ import getDatesForCurrentWeek from '../../utils/getDatesForCurrentWeek'
 import indexOfSameDayInWeek from '../../utils/indexOfSameDayInWeek'
 
 const CourseSchedule = () => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const currentWeek = getDatesForCurrentWeek();
     const [daySchedule, setDaySchedule] = useState([
         {
@@ -38,7 +39,7 @@ const CourseSchedule = () => {
     ]);
 
     const fetchAndUpdateLessonInfo = () => {
-        axios.get('http://localhost:3500/lessons')
+        axios.get(`${baseURL}/lessons`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     calculateSchedule(resp.data)

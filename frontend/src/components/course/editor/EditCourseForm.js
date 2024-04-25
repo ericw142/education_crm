@@ -13,6 +13,7 @@ const EditCourseForm = ({
     editedCourseData,
     setEditedCourseData
 }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [resultStatusMessage, setResultStatusMessage] = useState('')
     const [showCreateLessonForm, setShowCreateLessonForm] = useState(false)
     const [lessons, setLessons] = useState([])
@@ -31,7 +32,7 @@ const EditCourseForm = ({
             return;
         }
 
-        await axios.patch('http://localhost:3500/courses', editedCourseData)
+        await axios.patch(`${baseURL}/courses`, editedCourseData)
             .then(() => {
                 setResultStatusMessage(`${editedCourseData.title || 'Course'} has been updated successfully.`)
                 setEditedCourseData({})
@@ -45,7 +46,7 @@ const EditCourseForm = ({
             return;
         }
 
-        await axios.delete('http://localhost:3500/courses', { data: { id: editedCourseData._id } })
+        await axios.delete(`${baseURL}/courses`, { data: { id: editedCourseData._id } })
             .then(() => {
                 setResultStatusMessage('Course deleted')
                 setEditedCourseData({})
@@ -55,7 +56,7 @@ const EditCourseForm = ({
     }
 
     const fetchLessonInfo = () => {
-        axios.get(`http://localhost:3500/lessons/course/${editedCourseData?._id}`)
+        axios.get(`${baseURL}/lessons/course/${editedCourseData?._id}`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     setLessons(resp.data)

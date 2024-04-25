@@ -5,13 +5,14 @@ import CourseSchedule from './course/CourseSchedule'
 import CoursePlanner from './course/CoursePlanner'
 
 const CourseView = () => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [selectedView, setSelectedView] = useState('Course Planner')
     const [courses, setCourses] = useState([])
     const [teachers, setTeachers] = useState([])
     const [students, setStudents] = useState([])
 
     const fetchAndUpdateCourseInfo = () => {
-        axios.get('http://localhost:3500/courses')
+        axios.get(`${baseURL}/courses`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     setCourses(resp.data)
@@ -26,7 +27,7 @@ const CourseView = () => {
     }
 
     const fetchAndUpdateTeacherInfo = () => {
-        axios.get('http://localhost:3500/teachers')
+        axios.get(`${baseURL}/teachers`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     setTeachers(resp.data)
@@ -37,7 +38,7 @@ const CourseView = () => {
 
     const fetchAndUpdateStudentInfo = async () => {
         let allStudents = [];
-        await axios.get('http://localhost:3500/students/enrollmentStatus?status=Enrolled')
+        await axios.get(`${baseURL}/students/enrollmentStatus?status=Enrolled`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     allStudents.push(...resp.data);
@@ -46,7 +47,7 @@ const CourseView = () => {
             .catch(err => {
                 console.log(err?.message || 'Unknown Error')
             });
-        await axios.get('http://localhost:3500/students/enrollmentStatus?status=Application%20Completed')
+        await axios.get(`${baseURL}/students/enrollmentStatus?status=Application%20Completed`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     allStudents.push(...resp.data);

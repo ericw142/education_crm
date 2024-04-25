@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [newCourseData, setNewCourseData] = useState({
         title: '',
         description: '',
@@ -26,7 +27,7 @@ const NewCourseForm = ({ teachers, fetchCourseInfo }) => {
             return;
         }
 
-        await axios.post('http://localhost:3500/courses', newCourseData)
+        await axios.post(`${baseURL}/courses`, newCourseData)
             .then(() => {
                 console.log('Created new course')
                 fetchCourseInfo()

@@ -4,6 +4,7 @@ import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 
 const NewStudentModal = ({ open, onCloseModal, fetchInfo }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const [newStudent, setNewStudent] = useState({})
 
     useEffect(() => {
@@ -73,7 +74,7 @@ const NewStudentModal = ({ open, onCloseModal, fetchInfo }) => {
                             type="button"
                             onClick={() => {
                                 const body = {...newStudent};
-                                axios.post('http://localhost:3500/students', body)
+                                axios.post(`${baseURL}/students`, body)
                                 .then(() => {
                                     onCloseModal()
                                     fetchInfo()

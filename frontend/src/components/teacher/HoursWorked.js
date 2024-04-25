@@ -6,6 +6,7 @@ import formatDate from '../../utils/formatDate'
 import Chart from 'react-apexcharts'
 
 const HoursWorked = ({ teachers }) => {
+    const baseURL = process.env.REACT_APP_BASE_URL;
     const currentWeek = getDatesForCurrentWeek();
     const teacherNames = teachers?.length > 0 ? teachers.map((teacher) => {return `${teacher.firstName} ${teacher.lastName}`}) : [];
     const [options, setOptions] = useState({
@@ -37,7 +38,7 @@ const HoursWorked = ({ teachers }) => {
     const [series, setSeries] = useState([])
 
     const fetchAndUpdateReport = () => {
-        axios.get('http://localhost:3500/lessons')
+        axios.get(`${baseURL}/lessons`)
             .then((resp) => {
                 if (resp?.data?.length > 0) {
                     calculateHoursPerTeacher(resp.data)
