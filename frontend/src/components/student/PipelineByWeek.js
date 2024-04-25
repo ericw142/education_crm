@@ -69,20 +69,20 @@ const PipelineByWeek = ({ students }) => {
         const contactedTotals = [0,0,0,0,0,0,0];
         const interestedTotals = [0,0,0,0,0,0,0];
         const appStartedTotals = [0,0,0,0,0,0,0];
-        const enrolledTotals = [0,0,0,0,0,0,0];
+        const appCompletedTotals = [0,0,0,0,0,0,0];
 
         for (let i = 0; i < students.length; i++) {
             let newLeadIdx = indexOfSameDayInWeek(students[i].createdDate, currentWeek);
             let contactedIdx = indexOfSameDayInWeek(students[i].contactedDate, currentWeek);
             let interestedIdx = indexOfSameDayInWeek(students[i].interestedDate, currentWeek);
             let appStartedIdx = indexOfSameDayInWeek(students[i].applicationStartedDate, currentWeek);
-            let enrolledIdx = indexOfSameDayInWeek(students[i].enrollmentDate, currentWeek);
+            let appCompletedIdx = indexOfSameDayInWeek(students[i].applicationCompletedDate, currentWeek);
 
             if (newLeadIdx !== -1) newLeadsTotals[newLeadIdx]++;
             if (contactedIdx !== -1) contactedTotals[contactedIdx]++;
             if (interestedIdx !== -1) interestedTotals[interestedIdx]++;
             if (appStartedIdx !== -1) appStartedTotals[appStartedIdx]++;
-            if (enrolledIdx !== -1) enrolledTotals[enrolledIdx]++;
+            if (appCompletedIdx !== -1) appCompletedTotals[appCompletedIdx]++;
         }
 
         setSeries([
@@ -107,9 +107,9 @@ const PipelineByWeek = ({ students }) => {
                 data: appStartedTotals
             },
             {
-                name: 'Enrolled',
+                name: 'Application Completed',
                 type: 'line',
-                data: enrolledTotals
+                data: appCompletedTotals
             },
         ])
     }
