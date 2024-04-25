@@ -8,6 +8,7 @@ const corsOptions = {
             callback(new Error('Unauthorized Origin'))
         }
     },
+    methods: ["GET","POST", "PATCH", "DELETE"],
     credentials: true,
     optionsSuccessStatus: 200
 }
